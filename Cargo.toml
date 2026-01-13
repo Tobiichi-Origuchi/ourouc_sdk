@@ -1,10 +1,12 @@
 [package]
-name = "ourouc-sdk"
+name = "ourouc_sdk"
 version = "0.0.1"
 edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
+bytes = "1.11.0"
+infer = "0.19.0"
 reqwest = { version = "0.13.1", features = ["cookies", "json", "multipart", "stream"] }
 rpassword = "7.4.0"
 scraper = "0.25.0"
