@@ -2,7 +2,7 @@ use crate::constants::CAS_LOGIN_URL;
 use anyhow::{Context, Result};
 use reqwest::Client;
 use scraper::{Html, Selector};
-use url::Url;
+use url::{Url, form_urlencoded};
 
 /// 登录
 pub async fn login(client: &Client, username: &str, password: &str, url: &str) -> Result<()> {
@@ -16,15 +16,18 @@ pub async fn login(client: &Client, username: &str, password: &str, url: &str) -
     let flow_id = extract_flow_id(&html_text).context("无法提取 flowId")?;
 
     // 构建表单
-    let body_str = url::form_urlencoded::Serializer::new(String::new())
-        .append_pair("username", username)
-        .append_pair("password", password)
-        .append_pair("loginType", "username_password")
-        .append_pair("flowId", &flow_id)
-        .append_pair("submit", "登录")
-        .append_pair("captcha", "")
-        .append_pair("delegator", "")
-        .append_pair("tokenCode", "")
+    let params = [
+        ("username", username),
+        ("password", password),
+        ("loginType", "username_password"),
+        ("flowId", &flow_id),
+        ("submit", "登录"),
+        ("captcha", ""),
+        ("delegator", ""),
+        ("tokenCode", ""),
+    ];
+    let body_str = form_urlencoded::Serializer::new(String::new())
+        .extend_pairs(params)
         .finish();
 
     // 发送登录请求

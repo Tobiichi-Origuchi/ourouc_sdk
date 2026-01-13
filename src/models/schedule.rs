@@ -35,3 +35,16 @@ pub struct Course {
     pub bj: Option<String>,       // 备注
     pub rownum_: Option<u8>,      // 行号
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Semester {
+    pub id: String,   // e.g., "2025-2026-2"
+    pub name: String, // e.g., "2025秋季学期"
+    pub is_current: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct CourseMeta {
+    pub semesters: Vec<Semester>,
+    pub kbjcmsid: String, // 动态提取的 ID
+}
